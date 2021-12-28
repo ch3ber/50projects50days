@@ -1,0 +1,98 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 62.5%;}
+:root {
+   --purple: #6D28D9;
+   --purple-light: #A78BFA;
+   --gray: #A1A1AA;
+   --gray-light: #D4D4D4;
+   --color-fonts: #71717A;
+   --white: #fff;
+   --white-dark: #F5F5F5;
+}
+body {
+   color: var(--color-fonts);
+   font-size: 1.6rem;
+   display: grid;
+   place-items: center center;
+   width: 100%;
+   height: 100vh;
+   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* progress bar */
+.progress-bar {
+   display: flex;
+   width: 40rem;
+   justify-content: space-between;
+   position: relative;
+}
+.progress-bar__progress {
+   display: inline;
+   width: 0;
+   z-index: 2;
+   background-color: var(--purple-light);
+}
+.progress-bar::before,
+.progress-bar::after,
+.progress-bar__progress {
+   content: '';
+   height: .5rem;
+   position: absolute;
+   top: 0;
+   left: 0;
+   transform: translateY(230%);
+}
+.progress-bar::before {
+   z-index: 1;
+   width: 100%;
+   background-color: var(--gray-light);
+}
+.progress-bar::after {
+   z-index: 2;
+   background-color: var(--purple-light);
+}
+.progress-bar__step {
+   border-radius: 50%;
+   text-align: center;
+   width: 3rem;
+   height: 3rem;
+   display: grid;
+   place-items: center center;
+   background-color: var(--white-dark);
+   z-index: 5;
+   border: 3px solid var(--gray-light);
+   transition: all 500ms ease;
+}
+.progress-bar__step--active {
+   background-color: var(--white);
+   border: 3px solid var(--purple-light);
+}
+
+/* buttons */
+.buttons {
+   margin-top: 2rem;
+   display: flex;
+   justify-content: center;
+   gap: 2rem;
+}
+button {
+   border: none;
+   padding: 1rem;
+   width: 10rem;
+   border-radius: 5px;
+   color: var(--white);
+   cursor: pointer;
+   transition: all 700ms ease;
+}
+button:hover {
+   opacity: .8;
+   box-shadow: none;
+}
+.button-previous {
+   background-color: var(--gray);
+   box-shadow: 0px 5px 10px 0px var(--gray-light);
+}
+.button-next {
+   background-color: var(--purple);
+   box-shadow: 0px 5px 10px 0px var(--purple-light);
+}
