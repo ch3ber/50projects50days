@@ -2,39 +2,44 @@ document.querySelector('.button-next').addEventListener('click', nexStep);
 document.querySelector('.button-previous').addEventListener('click', previousStep);
 
 function nexStep() {
-   const NEXT_STEP_WIDTH = 133.3;
+   const progressBar = document.querySelector('.progress-bar__progress');
+   const progress = parseInt(progressBar.style.width.replace('%', ''));
+   const PENULTIMATE_STEP = 66;
+   const NEXT_STEP_PROGRESS = progress + 33;
 
-   const progressBar = document.querySelector('.progress-bar');
-   const progressBarStyles = window.getComputedStyle(progressBar);
-   const maxProgress = parseInt(progressBarStyles.getPropertyValue('width').replace('px', ''));
-
-   const progressElement = document.querySelector('.progress-bar__progress');
-   const progressElementStyles = window.getComputedStyle(progressElement);
-   const progressElementWidth = progressElementStyles.getPropertyValue('width');
-   const newWidth = parseInt(progressElementWidth.replace('px', '')) + NEXT_STEP_WIDTH;
-
-   if (newWidth <= maxProgress) {
-      progressElement.style.width = `${newWidth}px`;
-   } else {
-      return;
+   if (progress == PENULTIMATE_STEP) toggleDisableNextStepButton();
+   if (progress < 99) {
+      progressBar.setAttribute('style', `width: ${NEXT_STEP_PROGRESS}%`);
+      toggleActiveStep(NEXT_STEP_PROGRESS);
    }
 }
 
-function previousStep() {
-   const STEP_WIDTH = 133.3;
-   const MINIMAL_PROGRESS = 0;
-   
-   const progressElement = document.querySelector('.progress-bar__progress');
-   const progressElementStyles = window.getComputedStyle(progressElement);
-   const progressElementWidth = progressElementStyles.getPropertyValue('width');
-   const newWidth = parseInt(progressElementWidth.replace('px', '')) - STEP_WIDTH;
+function toggleDisableNextStepButton() {
+   document.querySelector('.button-next').classList.toggle('button--locked');
+}
 
-   if (newWidth < 0) {
-      progressElement.style.width = '0';
+function previousStep() {
+   const progressBar = document.querySelector('.progress-bar__progress');
+   const progress = parseInt(progressBar.style.width.replace('%', ''));
+   const PREVIOUS_STEP = progress - 33;
+   
+   if (progress > 0) {
+      progressBar.setAttribute('style', `width: ${PREVIOUS_STEP}%`);
+      toggleActiveStep(progress);
    }
-   if (newWidth > MINIMAL_PROGRESS) {
-      progressElement.style.width = `${newWidth}px`;
-   } else {
-      return;
-   }
+   if (progress == 99) toggleDisableNextStepButton();
+}
+
+function toggleActiveStep(progress) {
+   const progressBar = document.querySelector('.progress-bar');
+   const stepsEquivalences = {
+      0: 1,
+      33: 2,
+      66: 3,
+      99: 4
+   };
+
+   if (progress == 0) return;
+   progressBar.children[stepsEquivalences[progress]]
+      .classList.toggle('progress-bar__step--active');
 }
