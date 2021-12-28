@@ -4,30 +4,31 @@ document.querySelector('.button-previous').addEventListener('click', previousSte
 function nexStep() {
    const progressBar = document.querySelector('.progress-bar__progress');
    const progress = parseInt(progressBar.style.width.replace('%', ''));
-   const PENULTIMATE_STEP = 66;
    const NEXT_STEP_PROGRESS = progress + 33;
 
-   if (progress == PENULTIMATE_STEP) toggleDisableNextStepButton();
+   if (NEXT_STEP_PROGRESS == 33) toggleDisableButton('button-previous');
+   if (NEXT_STEP_PROGRESS == 99) toggleDisableButton('button-next');
    if (progress < 99) {
       progressBar.setAttribute('style', `width: ${NEXT_STEP_PROGRESS}%`);
       toggleActiveStep(NEXT_STEP_PROGRESS);
    }
 }
 
-function toggleDisableNextStepButton() {
-   document.querySelector('.button-next').classList.toggle('button--locked');
+function toggleDisableButton(button) {
+   document.querySelector(`.${button}`).classList.toggle('button--locked');
 }
 
 function previousStep() {
    const progressBar = document.querySelector('.progress-bar__progress');
    const progress = parseInt(progressBar.style.width.replace('%', ''));
-   const PREVIOUS_STEP = progress - 33;
+   const PREVIOUS_STEP_PROGRESS = progress - 33;
    
+   if (PREVIOUS_STEP_PROGRESS == 0) toggleDisableButton('button-previous');
+   if (progress == 99) toggleDisableButton('button-next');
    if (progress > 0) {
-      progressBar.setAttribute('style', `width: ${PREVIOUS_STEP}%`);
+      progressBar.setAttribute('style', `width: ${PREVIOUS_STEP_PROGRESS}%`);
       toggleActiveStep(progress);
    }
-   if (progress == 99) toggleDisableNextStepButton();
 }
 
 function toggleActiveStep(progress) {
